@@ -2,8 +2,8 @@
 /* Regular */
 @font-face {
   font-family: 'Modius';
-  src: url('../../assets/fonts/modius-regular.woff2') format('woff2'),
-       url('../../assets/fonts/modius-regular.otf') format('opentype');
+  src: url('../../../assets/fonts/modius-regular.woff2') format('woff2'),
+       url('../../../assets/fonts/modius-regular.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -12,8 +12,26 @@
 /* Bold */
 @font-face {
   font-family: 'Modius';
-  src: url('../../assets/fonts/modius-bold.woff2') format('woff2'),
-       url('../../assets/fonts/modius-bold.otf') format('opentype');
+  src: url('../../../assets/fonts/modius-bold.woff2') format('woff2'),
+       url('../../../assets/fonts/modius-bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Regular */
+@font-face {
+  font-family: 'Modius';
+  src: url('/TheCodeCrafters/assets/fonts/modius-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Bold */
+@font-face {
+  font-family: 'Modius';
+  src: url('/TheCodeCrafters/assets/fonts/modius-bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -111,7 +129,7 @@ p, h1, h2, h3, h4, h5, h6 {
     width: 100%;
     margin: 0 auto;
     padding-inline: clamp(1rem, 4vw, 2rem);
-    /* border: 1px solid #000; */
+    border: 1px solid #000;
      height: 100vh;
 }
 
