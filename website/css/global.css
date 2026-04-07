@@ -2,8 +2,8 @@
 /* Regular */
 @font-face {
   font-family: 'Modius';
-  src: url('../../../assets/fonts/modius-regular.woff2') format('woff2'),
-       url('../../../assets/fonts/modius-regular.otf') format('opentype');
+  src: url('../../assets/fonts/modius-regular.woff2') format('woff2'),
+       url('../../assets/fonts/modius-regular.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -12,8 +12,8 @@
 /* Bold */
 @font-face {
   font-family: 'Modius';
-  src: url('../../../assets/fonts/modius-bold.woff2') format('woff2'),
-       url('../../../assets/fonts/modius-bold.otf') format('opentype');
+  src: url('../../assets/fonts/modius-bold.woff2') format('woff2'),
+       url('../../assets/fonts/modius-bold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
