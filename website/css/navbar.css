@@ -26,6 +26,7 @@
 
   background: transparent;
   transition: all var(--speed) ease;
+opacity: 0; 
    /* border: 1px solid #000; */
 }
 
@@ -70,28 +71,29 @@
 .nav-links-left {
   justify-content: flex-end;
   flex: 1;
-  padding-right: 120px;
+  padding-right: 100px;
 }
 
 .nav-links-right {
   justify-content: flex-start;
   flex: 1;
-  padding-left: 120px;
+  padding-left: 100px;
 }
 
 .nav-link {
   position: relative;
   display: inline-block;
-  padding: 8px 18px;
+  padding: 8px clamp(25px, 2vw, 50px);
 
   font-family: 'Modius';
-  font-size: 12px;
+ font-size: clamp(0.75rem, 0.85vw, 0.875rem);
+ white-space: nowrap;
   font-weight: 400;
   text-transform: uppercase;
   text-decoration: none;
   letter-spacing: 2px;
 
-  color: var(--black);
+  color: var(--graphite-black);
 
   transition: color var(--speed) ease;
 }

@@ -219,21 +219,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
   resize.observe(document.body);
 
- gsap.set(nav, {
-  clearProps: 'all',
-  opacity: 1,
-  y: 0
-});
+ 
 
-gsap.from(nav, {
-  y: -20,
-  opacity: 0,
-  duration: 0.8,
-  ease: 'expo.out',
-  delay: 0.1,
-  clearProps: 'opacity,transform'
-});
+function playNavbarIntro() {
+  const nav = document.querySelector(".nav");
 
-  console.log('🚀 Navbar intro animation started');
+  // Start state like "from" in keyframes
+  gsap.set(nav, {
+    y: -20,
+    opacity: 0
+  });
+
+  // Animate to "to" in keyframes
+  gsap.to(nav, {
+    y: 0,
+    opacity: 1,
+    duration: 0.8,
+    ease: "power1.out" // smooth fade+slide down, no bounce
+  });
+}
+
+window.playNavbarIntro = playNavbarIntro;
+
 
 });
