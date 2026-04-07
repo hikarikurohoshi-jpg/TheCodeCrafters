@@ -1,0 +1,247 @@
+/*========================= Variables shits =========================*/
+:root {
+
+  --nav-height: 68px;
+  --nav-height-mobile: 60px;
+
+  --speed: 0.35s;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+
+/* ============================================================
+   NAVBAR
+============================================================ */
+.nav {
+  position: relative;
+  top: 0;
+  z-index: 100;
+  height: var(--nav-height);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 40px;
+
+  background: transparent;
+  transition: all var(--speed) ease;
+   /* border: 1px solid #000; */
+}
+
+.nav.scrolled {
+  background: transparent;
+}
+
+/* ============================================================
+   LOGO
+============================================================ */
+.nav-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  z-index: 2;
+
+  transition:
+    left var(--speed) var(--ease),
+    transform var(--speed) var(--ease);
+     /* border: 1px solid #000; */
+}
+
+.nav-logo-img {
+  height: 40px;
+  width: auto;
+  display: block;
+}
+
+/* ============================================================
+   LINKS
+============================================================ */
+.nav-links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  width: 100%;
+}
+
+.nav-links-left {
+  justify-content: flex-end;
+  flex: 1;
+  padding-right: 120px;
+}
+
+.nav-links-right {
+  justify-content: flex-start;
+  flex: 1;
+  padding-left: 120px;
+}
+
+.nav-link {
+  position: relative;
+  display: inline-block;
+  padding: 8px 18px;
+
+  font-family: 'Modius';
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 2px;
+
+  color: var(--black);
+
+  transition: color var(--speed) ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 18px;
+  right: 18px;
+  height: 1.5px;
+
+  background: var(--royal-blue);
+
+  transform: scaleX(0);
+  transform-origin: left center;
+
+  transition: transform 0.32s var(--ease);
+}
+
+.nav-link:hover {
+  color: var(--royal-blue);
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* ============================================================
+   TOGGLE BUTTON
+============================================================ */
+.nav-toggle {
+  display: none;
+  position: fixed;
+  top: 14px;
+  right: 24px;
+
+  width: 40px;
+  height: 40px;
+
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  z-index: 999999;
+
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  
+}
+
+.nav-line {
+  width: 26px;
+  height: 3px;
+  background: var(--graphite-black);
+  border-radius: 999px;
+}
+
+/* ============================================================
+   MOBILE MENU
+============================================================ */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+
+  z-index: 99998;
+
+  clip-path: inset(0 0 100% 0);
+
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+
+  display: none;
+  
+}
+
+.mobile-menu.active {
+  visibility: visible;
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.mobile-menu-inner {
+  position: absolute;
+  inset: 0;
+
+  background: var(--graphite-black);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mobile-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mobile-link {
+  display: block;
+  padding: 16px 40px;
+  font-family: 'Modius';
+  font-size: clamp(1.8rem, 7vw, 2.8rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  color: var(--silver-gray);
+
+  opacity: 0;
+  transform: translateX(-60px);
+
+  transition: 0.25s ease;
+}
+
+.mobile-link:hover {
+  color: var(--electric-cyan);
+}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media (max-width: 900px) {
+  .nav {
+    height: var(--nav-height-mobile);
+    justify-content: flex-start;
+    padding: 0 10px;
+  }
+
+  .nav-logo {
+    position: relative;
+    left: -15px;
+    transform: none;
+  }
+
+  .nav-links-left,
+  .nav-links-right {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+   .mobile-menu {
+    display: block;
+  }
+}

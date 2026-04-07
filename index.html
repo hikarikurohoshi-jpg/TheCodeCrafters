@@ -1,11 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Code Crafters</title>
+    <link rel="icon" type="image/png" href="assets/tcc-logo/tcc-logo-bg.png" />
+
+    <!-- Font style from google shits  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <!-- css shits -->
+    <link rel="stylesheet" href="website/css/global.css">
+    <link rel="stylesheet" href="website/css/navbar.css">
+
 </head>
+
 <body>
+
+    <!-- intro / entrance animation shits -->
+    <div id="intro">
+
+    </div>
+
+    <!-- Webpages -->
+    <main>
+
+        <!-- Home Page  -->
+        <section class="panel home">
+            <div class="container">
+
+
+                <nav class="nav" role="navigation" aria-label="Main navigation">
+
+                    <a href="#" class="nav-logo" aria-label="Home">
+                        <img src="assets/tcc-logo/tcc-logo.png" alt="Logo" class="nav-logo-img" />
+                    </a>
+
+                    <ul class="nav-links nav-links-left">
+                        <li><a href="#about" class="nav-link">About Us</a></li>
+                        <li><a href="#officers" class="nav-link">Officers</a></li>
+                    </ul>
+
+                    <ul class="nav-links nav-links-right">
+                        <li><a href="#activities" class="nav-link">Activities</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                    </ul>
+
+                </nav>
+
+                <button class="nav-toggle" aria-label="Toggle menu">
+                    <span class="nav-line" id="line1"></span>
+                    <span class="nav-line" id="line2"></span>
+                </button>
+
+                <nav class="mobile-menu" id="mobileMenu">
+                    <div class="mobile-menu-inner">
+                        <ul class="mobile-links">
+                            <li><a href="#" class="mobile-link">Home</a></li>
+                            <li><a href="#about" class="mobile-link">About Us</a></li>
+                            <li><a href="#officers" class="mobile-link">Officers</a></li>
+                            <li><a href="#activities" class="mobile-link">Activities</a></li>
+                            <li><a href="#contact" class="mobile-link">Contact</a></li>
+                        </ul>
+                    </div>
+                </nav>
+
+
+
+
+             
+
+            </div>
+
+
+        </section>
+
+
+        <!-- About page -->
+        <section class="panel about">
+
+            <div class="container"></div>
+        </section>
+
+
+    </main>
+
+
+
+
+
+    <!-- GSAP -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+    <script src="website/js/global.js"></script>
+    <script src="website/js/navbar.js"></script>
     
+
 </body>
+
 </html>
