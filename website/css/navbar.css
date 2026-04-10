@@ -25,8 +25,8 @@
   padding: 0 40px;
 
   background: transparent;
-  transition: all var(--speed) ease;
-opacity: 0; 
+   transition: background var(--speed) ease, opacity var(--speed) ease;
+opacity: 0;
    /* border: 1px solid #000; */
 }
 

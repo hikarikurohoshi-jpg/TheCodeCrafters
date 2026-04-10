@@ -1,95 +1,81 @@
-// Prevent browser from restoring scroll on refresh/back
+// ─────────────────────────────────────────────────────────────────
+//  global.js  –  scroll management + ONE unified intro timeline
+// ─────────────────────────────────────────────────────────────────
+
+/* ── Scroll restoration ──────────────────────────────────────── (need to fix this shits)*/ 
 if ("scrollRestoration" in history) {
   history.scrollRestoration = "manual";
 }
 
-// Always scroll to the top on load
-window.addEventListener("load", function () {
+window.addEventListener("beforeunload", () => window.scrollTo(0, 0));
+
+window.addEventListener("load", () => {
   window.scrollTo(0, 0);
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
+  if (window.location.hash) history.replaceState(null, null, " ");
 });
 
+
+/* ── Master intro + homepage entrance ───────────────────────── */
 window.addEventListener("load", () => {
 
   const pillars = gsap.utils.toArray(".pillar");
-  const logo = document.querySelector(".logo-wrap");
+  const logo    = document.querySelector(".logo-wrap");
   const logoImg = document.querySelector(".logo-img");
-  const intro = document.querySelector(".intro-screen");
+  const intro   = document.querySelector(".intro-screen");
 
-  // -------------------------------
-  // LOCK SCROLL WITHOUT HIDING SCROLLBAR
-  // -------------------------------
-  let scrollTop = 0;
-
-  function lockScroll() {
-    scrollTop = window.scrollY;
+  /* scroll lock */
+  let savedScroll = 0;
+  const preventScroll = () => window.scrollTo(0, savedScroll);
+  const lockScroll    = () => {
+    savedScroll = window.scrollY;
     window.addEventListener("scroll", preventScroll, { passive: false });
-  }
-
-  function preventScroll(e) {
-    window.scrollTo(0, scrollTop); // always force top
-  }
-
-  function unlockScroll() {
+  };
+  const unlockScroll  = () => {
     window.removeEventListener("scroll", preventScroll);
-  }
+  };
 
-  lockScroll(); // lock scroll during intro
+  lockScroll();
 
-  // GSAP controls initial state
-  gsap.set(pillars, { y: "-100%" });
+  /* ── SINGLE MASTER TIMELINE ──────────────────────────────── */
+  const master = gsap.timeline({ delay: 0.35 });
 
-  const tl = gsap.timeline({
-    paused: true,
-    onComplete: () => {
-      intro.style.display = "none";
-      unlockScroll(); // allow normal scrolling
-
-      // Trigger navbar animation
-      if (window.playNavbarIntro) {
-        window.playNavbarIntro();
-      }
-    }
-  });
-
-  tl.to(pillars, {
-    y: "0%",
-    duration: 1.2,
-    stagger: 0.12,
-    ease: "expo.inOut"
-  });
-
-  tl.to(logo, { opacity: 1, duration: 0.6 }, "-=0.5");
-
-  tl.fromTo(logoImg,
-    { scale: 0.9, opacity: 0 },
-    { scale: 1, opacity: 1, duration: 0.8, ease: "power3.out" },
-    "-=0.4"
+  // 1 ▸ Pillars drop in  (was 1.2 s)
+  master.fromTo(pillars,
+    { y: "-100%" },
+    { y: "0%", duration: 0.85, stagger: 0.08, ease: "expo.inOut" }
   );
 
-  tl.to({}, { duration: 1 });
+  // 2 ▸ Logo fades + scales in  (was 0.6 + 0.8 s)
+  master.to(logoImg, { scale: 1, opacity: 1, duration: 0.55, ease: "power2.out" }, "-=0.3");
+  master.to(logo,    { opacity: 1, duration: 0.45 }, "<");
 
-  tl.to(logo, { opacity: 0, y: -20, duration: 0.4 });
+  // 3 ▸ Hold  (was 1 s)
+  master.to({}, { duration: 0.75 });
 
-  tl.to(pillars, {
+  // 4 ▸ Logo fades out  (was 0.4 s)
+  master.to(logo, { opacity: 0, y: -12, duration: 0.28, ease: "power2.in" });
+
+  // 5 ▸ Pillars retract  (was 1.2 s)
+  master.to(pillars, {
     y: "-100%",
-    duration: 1.2,
-    stagger: 0.1,
-    ease: "expo.inOut"
+    duration: 0.85,
+    stagger: 0.07,
+    ease: "expo.inOut",
   });
 
-  tl.to(intro, {
-    opacity: 0,
-    duration: 0.5,
-    onComplete: () => {
-      intro.style.display = "none";
-      unlockScroll();
-      window.playNavbarIntro();
-    }
+  // 6 ▸ Intro screen dissolves  (was 0.4 s)
+  master.to(intro, { opacity: 0, duration: 0.25 });
+  master.add(() => {
+    intro.style.display = "none";
+    unlockScroll();
   });
 
-  // start timeline
-  gsap.delayedCall(0.5, () => tl.play());
-
+  // 7 ▸ Append home entrance timeline seamlessly
+  //     home.js exposes window.buildHomeEntranceTL() which returns
+  //     a pre-built (but not yet playing) GSAP timeline.
+  if (typeof window.buildHomeEntranceTL === "function") {
+    master.add(window.buildHomeEntranceTL(), "+=0");
+  }
 });

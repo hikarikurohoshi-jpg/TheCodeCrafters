@@ -1,0 +1,95 @@
+
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 180px;
+  height: 140px;
+  transform-style: preserve-3d;
+
+
+  animation: autoRun 20s linear infinite;
+  animation-play-state: paused;       /* paused when intro animation and shits is playing */
+
+  z-index: 1;
+}
+
+
+.slider.is-spinning {
+  animation-play-state: running;
+}
+
+@keyframes autoRun {
+  from { transform: perspective(1000px) rotateX(-16deg) rotateY(0deg);   }
+  to   { transform: perspective(1000px) rotateX(-16deg) rotateY(360deg); }
+}
+
+/* ── Items ────────────────────────────────────────────────── */
+.slider .item {
+  position: absolute;
+  inset: 0;
+  transform:
+    rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+    translateZ(380px);
+  border-radius: 14px;
+  overflow: visible;
+}
+
+.slider .item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 14px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Blue border ring */
+.slider .item::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 2px solid var(--royal-blue);
+  border-radius: 18px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Cyan depth ring */
+.slider .item::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  border-radius: 18px;
+  transform: translateZ(-12px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .slider {
+    width: 160px;
+    height: 125px;
+  }
+  .slider .item {
+    transform:
+      rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+      translateZ(320px);
+  }
+}
+
+@media (max-width: 768px) {
+  .slider {
+    width: 130px;
+    height: 100px;
+  }
+  .slider .item {
+    transform:
+      rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+      translateZ(240px);
+  }
+}
