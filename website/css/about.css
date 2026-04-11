@@ -1,0 +1,82 @@
+.about{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr; /* left fixed, right flexible */
+  gap: 40px;
+    row-gap: 5px;  
+}
+
+
+.box {
+     border: 1px solid #000;
+}
+
+
+
+.box-top{
+    grid-column: 1/4;
+    height: 60px;
+    width: 60%;
+    justify-self: center;
+        border: 1px solid #000;
+        margin-top: 40px;
+     
+}
+
+.box-desc{
+margin-top: -30px;
+     grid-column: 1 / 4;
+  height: 220px;
+}
+
+/* LEFT BOX */
+.box-left {
+  height: 500px;
+  width: 400px;
+}
+
+/* RIGHT SIDE CONTAINER */
+.right-group {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+
+   width: 600px;   /* 🔥 control total width */
+  height: 600px; 
+  /* MOVE WHOLE GROUP */
+   border: 1px solid #000;
+  margin-top: -20px;      /* move down */
+  margin-left: 100px;     /* move right */
+}
+
+/* INDIVIDUAL BOX CONTROL */
+.box-mission {
+  width: 300px;
+  height: 150px;
+
+  /* fine tuning */
+  transform: translateX(20px) translateY(10px);
+}
+
+.box-vision {
+  width: 300px;
+  height: 150px;
+
+  /* move independently */
+  transform: translateX(300px)  translateY(20px); /* move right */
+}
+
+.box-value {
+  width: 300px;
+  height: 150px;
+
+  /* move independently */
+  transform: translateY(20px); /* move down */
+}
