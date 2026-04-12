@@ -7,6 +7,10 @@
   text-align: center;
 }
 
+.home-con{
+  height: 140vh;
+}
+
 /* BADGE ======================================================= */
 .badge {
   display: inline-flex;
