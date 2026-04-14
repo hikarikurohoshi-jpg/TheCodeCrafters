@@ -25,7 +25,7 @@ window.addEventListener("load", () => {
   const logoImg = document.querySelector(".logo-img");
   const intro   = document.querySelector(".intro-screen");
 
-  /* scroll lock */
+
   let savedScroll = 0;
   const preventScroll = () => window.scrollTo(0, savedScroll);
   const lockScroll    = () => {
@@ -79,3 +79,55 @@ window.addEventListener("load", () => {
     master.add(window.buildHomeEntranceTL(), "+=0");
   }
 });
+
+
+// events page code
+ function handleCard(name) {
+    const toast = document.createElement('div');
+    toast.textContent = `Explore ${name} Class →`;
+    Object.assign(toast.style, {
+      position: 'fixed',
+      bottom: '32px',
+      left: '50%',
+      transform: 'translateX(-50%) translateY(16px)',
+      background: '#e8500a',
+      color: '#fff',
+      fontFamily: "'DM Sans', sans-serif",
+      fontSize: '14px',
+      fontWeight: '600',
+      padding: '12px 28px',
+      borderRadius: '100px',
+      boxShadow: '0 12px 32px rgba(232,80,10,.5)',
+      opacity: '0',
+      transition: 'opacity .25s, transform .25s',
+      zIndex: '9999',
+      pointerEvents: 'none',
+      letterSpacing: '.03em'
+    });
+    document.body.appendChild(toast);
+    requestAnimationFrame(() => {
+      toast.style.opacity = '1';
+      toast.style.transform = 'translateX(-50%) translateY(0)';
+    });
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(-50%) translateY(16px)';
+      setTimeout(() => toast.remove(), 300);
+    }, 2000);
+  }
+
+  /* Parallax tilt on wrapper (desktop only) */
+  const wrapper = document.querySelector('.wrapper');
+  if (window.matchMedia('(min-width:700px)').matches) {
+    document.addEventListener('mousemove', e => {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      const dx = (e.clientX - cx) / cx;
+      const dy = (e.clientY - cy) / cy;
+      wrapper.style.transform = `perspective(1200px) rotateY(${dx * 2.5}deg) rotateX(${-dy * 1.5}deg)`;
+    });
+    document.addEventListener('mouseleave', () => {
+      wrapper.style.transform = 'perspective(1200px) rotateY(0) rotateX(0)';
+    });
+    wrapper.style.transition = 'transform 0.1s ease';
+  }

@@ -1,182 +1,145 @@
-.about{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.about {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 clamp(16px, 4vw, 60px);
+  box-sizing: border-box;
+   padding-bottom: clamp(80px, 15vw, 200px);
 }
-
 
 .about-grid {
   display: grid;
-  grid-template-columns: 300px 1fr; /* left fixed, right flexible */
-  gap: 40px;
-    row-gap: 5px;  
-    height: 200vh;
+  grid-template-columns: clamp(200px, 28vw, 350px) 1fr;
+  gap: clamp(20px, 3vw, 40px);
+  row-gap: 5px;
+  height: auto; /* removed 200vh — let content define height */
+  width: 100%;
+  max-width: 1200px;
 }
 
-
-.box {
-     /* border: 1px solid #000; */
+.box-top {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* text left, line right */
+  margin-top: clamp(20px, 3vw, 40px);
+    margin-bottom: clamp(20px, 4vw, 60px); 
 }
 
-
-
-.box-top{
-    grid-column: 1/4;
-    height: 60px;
-    width: 100%;
-    justify-self: left;
-        /* border: 1px solid #000; */
-        margin-top: 40px;
-     
+.title-box {
+  font-family: 'Modius';
+  font-size: clamp(14px, 1.5vw, 20px);
+  font-weight: 700;
+  display: inline-block;
+  position: static; /* no longer needs relative */
+  padding-right: 0;
 }
 
-.box-desc{
-margin-top: -170px;
-     grid-column: 1 / 4;
+/* Remove the ::after pseudo-element entirely from title-box */
+.title-box::after {
+  display: none;
+}
+
+/* Add a separate line element inside .box-top */
+.box-top-line {
+  height: 5px;
+  width: clamp(80px, 15vw, 160px);
+  background-color: var(--graphite-black);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.box-desc {
+  grid-column: 1 / -1;
   height: auto;
+  margin-top: 0; /* removed -170px — layout handles spacing now */
+  font-family: 'Modius';
+  font-weight: 400;
+  font-size: clamp(28px, 5vw, 60px);
+  text-align: center;
+  margin-bottom: clamp(40px, 6vw, 100px); 
 }
+
+.desc { line-height: 1.3; letter-spacing: 1px; }
+.desc-two { color: var(--royal-blue); }
 
 /* LEFT BOX */
 .box-left {
-  height: 500px;
-  width: 400px;
-  margin-top: 0px;
-margin-left: 50PX;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-height: 500px;
+  overflow: hidden;
+  /* removed fixed 400px width */
+}
+
+.box-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.15); /* slightly reduced from 1.4 to avoid clipping */
 }
 
 /* RIGHT SIDE CONTAINER */
 .right-group {
   display: flex;
   flex-direction: column;
-  gap: 30px;
-
-
-   width: 600px;   /* 🔥 control total width */
-  height: 600px; 
-  /* MOVE WHOLE GROUP */
-   /* border: 1px solid #000; */
-  margin-top: 0px;      /* move down */
-  margin-left: 150px;     /* move right */
-}
-
-/* INDIVIDUAL BOX CONTROL */
-.box-mission {
-  width: 400px;
+  gap: clamp(16px, 2vw, 30px);
+  width: 100%;
   height: auto;
-
-  /* fine tuning */
-  transform: translateX(20px) translateY(10px);
+  /* removed fixed width/height and margin-left: 150px */
 }
 
-.box-vision {
-  width: 400px;
-  height: auto;
-
-  /* move independently */
-  transform: translateX(250px)  translateY(20px); /* move right */
-}
-
-.box-value {
-  width: 400px;
-  height: auto;
-
-  /* move independently */
-  transform: translateY(20px) translateX(70px); /* move down */
-    background: color-mix(in srgb, var(--royal-blue) 50%, transparent);
-     border-radius: clamp(3px, 0.4vw, 4px);
-}
-
-
-/* TEXT STYLING */
-.box h2 {
-  font-family: 'Modius';
-  font-weight: 700;
-  font-size: 20px;
-  text-align: center;
-
-}
-
-.box h3 {
-  font-family: 'Modius';
-  font-weight: 700;
-  font-size: 16px;
-  margin-bottom: 10px;
-}
-
-.box p {
-  font-size: 14px;
-  line-height: 1.5;
-  text-align: justify;
-}
-
-/* SPACING INSIDE BOXES */
+/* INDIVIDUAL BOXES */
 .box-mission,
 .box-vision,
 .box-value {
-  padding: 15px;
-}
-
-/* IMAGE FIX */
-.box-left img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-   transform: scale(1.4);
+  max-width: clamp(280px, 65%, 400px);
+  height: auto;
+  padding: 15px;
+  transform: none; /* removed all translateX/Y — use align-self + margin instead */
+  box-sizing: border-box;
+  border-radius: clamp(3px, 0.4vw, 4px);
 }
 
-.box-desc{
-      font-family: 'Modius';
-        font-weight: 400;
-        font-size: 60px;
-        text-align: center;
-        
-        
-}
-
-.desc{
-    line-height: 1.3;
-    letter-spacing: 1px;
-}
-
-.desc-one{
-
-}
-
-.desc-two{
- 
-  color: var(--royal-blue);
-}
-
-
-.box-top{
-     font-family: 'Modius';
-    font-weight: 700;
-    text-align: left;
-    
-}
-
-.title-box{
-    font-size: 20px;
-  
-}
-
-.title-box {
-  position: relative;
-  display: inline-block;
-  font-size: 20px;
-  font-weight: 700;
-
-  padding-right: 120px; /* space for the line */
-}
-
-.title-box::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 100%;
-  margin-left: 757px; /* gap between text and line */
-  width: 100px; /* adjust length as needed */
-  height: 5px; /* bold line */
+.box-mission { align-self: flex-start; margin-left: clamp(0px, 3%, 20px); }
+.box-vision  { align-self: flex-end;   margin-right: clamp(0px, 5%, 60px); }
+.box-value   {
+  align-self: flex-start;
+  margin-left: clamp(0px, 8%, 70px);
   background-color: var(--graphite-black);
-  transform: translateY(-50%);
+  color: var(--white);
+}
+
+/* TEXT */
+.box h2 { font-family: 'Modius'; font-weight: 700; font-size: clamp(15px, 1.5vw, 20px); text-align: center; }
+.box h3 { font-family: 'Modius'; font-weight: 700; font-size: clamp(13px, 1.2vw, 16px); margin-bottom: 10px; }
+.box p  { font-size: clamp(12px, 1.1vw, 14px); line-height: 1.5; }
+
+/* ── TABLET ── */
+@media (max-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1fr; /* stack left + right */
+  }
+
+  .box-left {
+    max-width: 340px;
+    max-height: 340px;
+    justify-self: center;
+  }
+
+  .box-mission,
+  .box-vision,
+  .box-value {
+    max-width: 100%;
+    align-self: stretch;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* ── MOBILE ── */
+@media (max-width: 480px) {
+  .about-grid { gap: 12px; }
+  .box-desc   { font-size: clamp(22px, 8vw, 36px); }
 }

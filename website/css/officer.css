@@ -1,0 +1,284 @@
+ :root {
+       --muted: #555;
+      --radius: 14px;
+    }
+  .officer-grid {
+    height: 140vh;
+     
+      padding: 48px 40px 64px;
+      max-width: 900px;
+      margin: 0 auto;
+   }
+ 
+  
+
+    
+
+    /* ── Hero row (headline + side card) ── */
+    .hero-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .hero-left { flex: 1; }
+
+    /* ── Headline ── */
+    .headline {
+      font-family: 'Modius';
+      font-weight: 800;
+      font-size: clamp(42px, 8vw, 72px);
+      line-height: .95;
+      text-transform: uppercase;
+      letter-spacing: -.01em;
+      margin-bottom: 0;
+    }
+
+    /* ── Hero side card ── */
+    .hero-card {
+      width: calc(25% - 11px);
+      flex-shrink: 0;
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .hero-card:hover .card-img {
+      filter: grayscale(0%);
+    }
+
+    .hero-card:hover .card-overlay {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .hero-card .card-img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      object-position: top center;
+      border-radius: var(--radius);
+    }
+
+    .hero-card .card-body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 14px 16px 18px;
+      background: var(--white);
+    }
+
+    .hero-card .card-body .name {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 3px;
+      color: var(--dark);
+    }
+
+    .hero-card .card-body .role {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .hero-card .card-body .stat {
+  
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--graphite-black);
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
+    .hero-card .card-body .stat-label {
+      font-size: 10.5px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .hero-card .card-body .divider {
+      height: 1px;
+      background: rgba(0,0,0,.12);
+      margin: 8px 0;
+    }
+
+    /* ── Two-col intro ── */
+    .intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+
+    .intro-left p {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      line-height: 1.5;
+      color: var(--graphite-black);
+    }
+
+    .intro-right p {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 14px;
+    }
+    .intro-right p:last-child { margin-bottom: 0; }
+
+    /* ── Team grids ── */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .card-img {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      border-radius: var(--radius);
+      filter: grayscale(15%);
+      transition: filter .3s ease;
+    }
+
+    .card:hover .card-img {
+      filter: grayscale(0%);
+    }
+
+    .card-body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 10px 12px 14px;
+      background: var(--white);
+    }
+
+    .card-body .name {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 2px;
+      color: var(--graphite-black);
+    }
+
+    .card-body .role {
+      font-size: 10.5px;
+      color: var(--muted);
+    }
+
+    /* ── Hover green overlay ── */
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--royal-blue);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 14px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .25s ease, transform .25s ease;
+      pointer-events: none;
+    }
+
+    .card:hover .card-overlay {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .overlay-social {
+      display: flex;
+      gap: 6px;
+    }
+
+    .overlay-social .social-btn {
+      width: 26px; height: 26px;
+      background:var(--graphite-black);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .overlay-social .social-btn svg {
+      width: 13px; height: 13px;
+      fill: var(--white);
+    }
+
+    .overlay-quote {
+      font-size: 11px;
+      line-height: 1.55;
+      color: var(--white);
+      font-style: italic;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+    }
+
+    .overlay-footer .name {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 2px;
+      color: var(--white);
+    }
+
+    .overlay-footer .role {
+      font-size: 10.5px;
+      color: var(--white);
+    }
+
+    .quote {
+      font-size: 11px;
+      line-height: 1.55;
+      color: var(--white);
+      font-style: italic;
+    }
+
+    /* ── Expand arrow ── */
+    .expand {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 36px; height: 36px;
+      background: var(--royal-blue);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .expand svg { width: 16px; height: 16px; stroke: var(--white); fill: none; }
+
+    @media (max-width: 640px) {
+      body { padding: 28px 18px 48px; }
+      .hero-row { flex-direction: column; }
+      .hero-card { width: 100%; }
+      .intro { grid-template-columns: 1fr; gap: 20px; }
+      .team-grid { grid-template-columns: repeat(2, 1fr); }
+    }
