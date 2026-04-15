@@ -118,24 +118,56 @@ p, h1, h2, h3, h4, h5, h6 {
 
 }
 
-.panel{
-  
-    width: 100%;
-    display: flex;
-    align-items: center;
-
-     background-color: var(--silver-gray);
+/* ─── Custom Properties ─── */
+:root {
+  --silver-gray: #c0c0c0; /* swap for your actual value */
 }
 
+/* ─── Panel ─── */
+.panel {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: var(--silver-gray);
+
+  /* Removed fixed height — let content drive it */
+  min-height: 60px; /* safety floor so it never collapses */
+}
+
+/* ─── Container ─── */
 .container {
-    max-width: 1200px;
-    width: 100%;
-    margin: 0 auto;
-    padding-inline: clamp(1rem, 4vw, 2rem);
-    border: 1px solid #000;
-     height: 120vh;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+
+  /* clamp() scales padding smoothly from 1rem → 2rem */
+  padding-inline: clamp(1rem, 4vw, 2rem);
+
+  /* Replace 120vh with auto + a min-height */
+  min-height: 100dvh; /* dvh = dynamic viewport height (safe on mobile) */
+  height: auto;       /* grows with content beyond that floor */
+
+  /* Keep your debug border or remove it in production */
+  border: 1px solid #000;
+
+  /* Prevent overflow on tiny screens */
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
+/* ─── Responsive overrides ─── */
+@media (max-width: 768px) {
+  .container {
+    min-height: 100dvh;
+    padding-inline: 1rem; /* fixed padding on small screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding-inline: 0.75rem;
+  }
+}
 
 
 /*========================= Entrance animation and shits =========================  */
