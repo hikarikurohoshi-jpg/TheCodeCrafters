@@ -80,6 +80,8 @@
       font-weight: 700;
       margin-bottom: 2px;
       color: var(--dark);
+      
+      
     }
 
     .hero-card .card-body .role {
@@ -186,6 +188,7 @@
       font-weight: 700;
       margin-bottom: 2px;
       color: var(--graphite-black);
+
     }
 
     .card-body .role {
