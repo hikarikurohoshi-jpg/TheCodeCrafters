@@ -1,0 +1,208 @@
+/* ═══════════════════════════════════════════════
+   FOOTER — footer.css
+   Palette: inherits from global.css variables
+═══════════════════════════════════════════════ */
+
+footer {
+  background: var(--graphite-black);
+  border-radius: 40px 40px 0 0;
+  padding: 56px 48px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* subtle grid-ring texture */
+footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-radial-gradient(ellipse 900px 400px at 60% 80%,
+      transparent 0, transparent 38px, rgba(44,230,255,0.025) 39px, transparent 40px),
+    repeating-radial-gradient(ellipse 700px 300px at 20% 50%,
+      transparent 0, transparent 58px, rgba(31,79,178,0.03) 59px, transparent 60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+footer > * { position: relative; z-index: 1; }
+
+/* ── Brand block ── */
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.footer-brand-logo {
+  width: 64px;
+  height: auto;
+  margin-bottom: 16px;
+
+
+}
+
+
+.footer-brand-name {
+  font-family: 'Modius';
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-weight: 700;
+  color: var(--silver-gray);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.footer-brand-name span {
+  color: var(--electric-cyan);
+}
+
+.footer-brand-sub {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--silver-gray);
+  margin-top: 6px;
+}
+
+/* ── Main grid ── */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  align-items: start;
+}
+
+.footer-col-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--silver-gray);
+  margin-bottom: 14px;
+}
+
+.footer-about-text {
+ color: var(--silver-gray);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 300;
+  line-height: 1.75;
+  max-width: 320px;
+}
+
+/* vertical divider column */
+.footer-col-divider {
+  display: flex;
+  align-items: stretch;
+}
+
+.footer-divider-line {
+  width: 1px;
+  min-height: 160px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.07) 20%,
+    rgba(255, 255, 255, 0.07) 80%,
+    transparent
+  );
+}
+
+/* nav column */
+.footer-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+}
+
+.footer-nav-link {
+ color: var(--silver-gray);
+  text-decoration: none;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 300;
+  transition: color 0.2s, padding-left 0.2s;
+  padding: 2px 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer-nav-link::before {
+  content: '›';
+  color: var(--electric-cyan);
+  font-size: 1rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.footer-nav-link:hover {
+  color: var(--electric-cyan);
+  padding-left: 4px;
+}
+
+.footer-nav-link:hover::before {
+  opacity: 1;
+}
+
+/* ── Bottom bar ── */
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0 24px;
+}
+
+.footer-copy {
+  color: var(--silver-gray);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 300;
+  text-align: center;
+}
+
+/* ════════════════════════════════
+   RESPONSIVE
+════════════════════════════════ */
+@media (max-width: 900px) {
+  footer { padding: 44px 32px 0; }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .footer-col-divider { display: none; }
+
+  .footer-col-about { grid-column: 1; }
+  .footer-col-nav   { grid-column: 2; }
+}
+
+@media (max-width: 600px) {
+  footer {
+    padding: 36px 20px 0;
+    border-radius: 28px 28px 0 0;
+  }
+
+  .footer-brand      { margin-bottom: 32px; }
+  .footer-brand-logo { width: 50px; }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-bottom: 28px;
+  }
+
+  .footer-col-about,
+  .footer-col-nav { grid-column: 1; }
+
+  .footer-about-text { max-width: 100%; }
+}

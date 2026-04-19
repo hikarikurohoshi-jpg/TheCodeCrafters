@@ -81,53 +81,243 @@ window.addEventListener("load", () => {
 });
 
 
-// events page code
- function handleCard(name) {
-    const toast = document.createElement('div');
-    toast.textContent = `Explore ${name} Class →`;
-    Object.assign(toast.style, {
-      position: 'fixed',
-      bottom: '32px',
-      left: '50%',
-      transform: 'translateX(-50%) translateY(16px)',
-      background: '#e8500a',
-      color: '#fff',
-      fontFamily: "'DM Sans', sans-serif",
-      fontSize: '14px',
-      fontWeight: '600',
-      padding: '12px 28px',
-      borderRadius: '100px',
-      boxShadow: '0 12px 32px rgba(232,80,10,.5)',
-      opacity: '0',
-      transition: 'opacity .25s, transform .25s',
-      zIndex: '9999',
-      pointerEvents: 'none',
-      letterSpacing: '.03em'
-    });
-    document.body.appendChild(toast);
-    requestAnimationFrame(() => {
-      toast.style.opacity = '1';
-      toast.style.transform = 'translateX(-50%) translateY(0)';
-    });
-    setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateX(-50%) translateY(16px)';
-      setTimeout(() => toast.remove(), 300);
-    }, 2000);
-  }
+/* ═══════════════════════════════════════════════
+   Activities / Events Page — Interactive JS
+═══════════════════════════════════════════════ */
 
-  /* Parallax tilt on wrapper (desktop only) */
+/**
+ * handleCard — toast notification on card click
+ */
+function handleCard(name) {
+  /* Remove any existing toast first */
+  const existing = document.querySelector('.act-toast');
+  if (existing) existing.remove();
+
+  const labels = {
+    Beginner: 'Explore Workshops →',
+    Expert:   'Explore Event Participations →',
+    Employee: 'Explore Seminars →',
+  };
+
+  const toast = document.createElement('div');
+  toast.className = 'act-toast';
+  toast.textContent = labels[name] || `Explore ${name} →`;
+
+  Object.assign(toast.style, {
+    position:      'fixed',
+    bottom:        '32px',
+    left:          '50%',
+    transform:     'translateX(-50%) translateY(16px)',
+    background:    '#1F4FB2',
+    color:         '#fff',
+    fontFamily:    "'Montserrat', sans-serif",
+    fontSize:      '14px',
+    fontWeight:    '600',
+    padding:       '12px 28px',
+    borderRadius:  '100px',
+    boxShadow:     '0 12px 32px rgba(31,79,178,.5)',
+    opacity:       '0',
+    transition:    'opacity .25s, transform .25s',
+    zIndex:        '9999',
+    pointerEvents: 'none',
+    letterSpacing: '.03em',
+    whiteSpace:    'nowrap',
+    maxWidth:      'calc(100vw - 32px)',
+    textAlign:     'center',
+  });
+
+  document.body.appendChild(toast);
+
+  /* Animate in */
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      toast.style.opacity    = '1';
+      toast.style.transform  = 'translateX(-50%) translateY(0)';
+    });
+  });
+
+  /* Animate out and remove */
+  setTimeout(() => {
+    toast.style.opacity   = '0';
+    toast.style.transform = 'translateX(-50%) translateY(16px)';
+    setTimeout(() => toast.remove(), 300);
+  }, 2000);
+}
+
+
+/* ═══════════════════════════════════════════════
+   Parallax tilt on wrapper — DESKTOP ONLY
+   (disabled on touch/mobile to avoid jank)
+═══════════════════════════════════════════════ */
+(function initParallax() {
   const wrapper = document.querySelector('.wrapper');
-  if (window.matchMedia('(min-width:700px)').matches) {
-    document.addEventListener('mousemove', e => {
-      const cx = window.innerWidth / 2;
+  if (!wrapper) return;
+
+  /* Only activate on non-touch, wide-enough screens */
+  const mq = window.matchMedia('(min-width: 700px) and (hover: hover) and (pointer: fine)');
+
+  function enableParallax() {
+    wrapper.style.transition = 'transform 0.12s ease';
+    wrapper.style.willChange = 'transform';
+
+    function onMouseMove(e) {
+      const cx = window.innerWidth  / 2;
       const cy = window.innerHeight / 2;
       const dx = (e.clientX - cx) / cx;
       const dy = (e.clientY - cy) / cy;
-      wrapper.style.transform = `perspective(1200px) rotateY(${dx * 2.5}deg) rotateX(${-dy * 1.5}deg)`;
+      wrapper.style.transform =
+        `perspective(1200px) rotateY(${dx * 2.5}deg) rotateX(${-dy * 1.5}deg)`;
+    }
+
+    function onMouseLeave() {
+      wrapper.style.transform = 'perspective(1200px) rotateY(0deg) rotateX(0deg)';
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseleave', onMouseLeave);
+
+    /* Clean up if viewport shrinks below threshold */
+    mq.addEventListener('change', function handler(e) {
+      if (!e.matches) {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseleave', onMouseLeave);
+        wrapper.style.transform  = '';
+        wrapper.style.transition = '';
+        wrapper.style.willChange = '';
+        mq.removeEventListener('change', handler);
+      }
     });
-    document.addEventListener('mouseleave', () => {
-      wrapper.style.transform = 'perspective(1200px) rotateY(0) rotateX(0)';
-    });
-    wrapper.style.transition = 'transform 0.1s ease';
   }
+
+  if (mq.matches) {
+    enableParallax();
+  }
+})();
+
+
+/* ═══════════════════════════════════════════════
+   Image Lightbox
+═══════════════════════════════════════════════ */
+(function initLightbox() {
+
+  /* Build overlay once */
+  const overlay = document.createElement('div');
+  overlay.className = 'lightbox-overlay';
+  overlay.innerHTML = `
+    <button class="lightbox-close" aria-label="Close preview">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="4" y1="4" x2="20" y2="20"/>
+        <line x1="20" y1="4" x2="4" y2="20"/>
+      </svg>
+    </button>
+    <img class="lightbox-img" src="" alt="Preview" draggable="false" />
+  `;
+  document.body.appendChild(overlay);
+
+  const img   = overlay.querySelector('.lightbox-img');
+  const close = overlay.querySelector('.lightbox-close');
+
+  function openLightbox(src, alt) {
+    img.src = src;
+    img.alt = alt || 'Preview';
+    overlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    overlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+    /* Clear src after transition so it doesn't flash on reopen */
+    setTimeout(() => { img.src = ''; }, 350);
+  }
+
+  /* Close on button or overlay background click */
+  close.addEventListener('click', closeLightbox);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeLightbox();
+  });
+
+  /* Close on Escape key */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('is-open')) {
+      closeLightbox();
+    }
+  });
+
+  /* Delegate clicks on all .card-illustration img elements */
+  document.addEventListener('click', (e) => {
+    const target = e.target.closest('.card-illustration img');
+    if (!target) return;
+    e.stopPropagation(); /* don't fire handleCard on the parent .folder */
+    openLightbox(target.src, target.alt);
+  });
+
+})();
+
+
+/* ═══════════════════════════════════════════════
+   CONTACT PAGE — contact.js
+   Circle text fitter + scroll rotation
+═══════════════════════════════════════════════ */
+
+(function initContact() {
+
+  const arcSizer    = document.getElementById('arcSizer');
+  const arcSvg      = document.getElementById('arcSvg');
+  const arcText     = document.getElementById('arcText');
+  const arcTextPath = document.getElementById('arcTextPath');
+
+  if (!arcSizer || !arcSvg || !arcText || !arcTextPath) return;
+
+  /* ── Constants ─────────────────────────────── */
+  const RADIUS        = 400;                        // SVG units — matches circle-path
+  const CIRCUMFERENCE = 2 * Math.PI * RADIUS;      // ≈ 2513.27 SVG units
+  const TEXT_CONTENT  = 'CONNECT WITH US ✦ CONNECT WITH US ✦';
+
+  /* ── Core fitter ────────────────────────────── */
+  function fitTextToCircle() {
+
+    /* 1. Apply a known reference size so we can measure */
+    const REF_SIZE = 10;
+    arcText.setAttribute('font-size', REF_SIZE);
+    arcText.setAttribute('letter-spacing', 0);
+    arcTextPath.textContent = TEXT_CONTENT;
+
+    /* 2. Measure rendered length at reference size */
+    let measured;
+    try {
+      measured = arcTextPath.getComputedTextLength();
+    } catch (e) {
+      return; // SVG not in DOM yet — ResizeObserver will retry
+    }
+    if (!measured || measured === 0) return;
+
+    /* 3. Scale font-size so text fills the full circumference */
+    const scaledSize = REF_SIZE * (CIRCUMFERENCE / measured);
+    arcText.setAttribute('font-size', scaledSize);
+    arcText.setAttribute('letter-spacing', 0);
+
+    /* 4. Fine-tune: distribute any residual gap as letter-spacing */
+    const afterScale   = arcTextPath.getComputedTextLength();
+    const residual     = CIRCUMFERENCE - afterScale;
+    const extraPerChar = residual / TEXT_CONTENT.length;
+    arcText.setAttribute('letter-spacing', extraPerChar);
+  }
+
+  /* ── Run after fonts are ready ──────────────── */
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(fitTextToCircle);
+  } else {
+    window.addEventListener('load', fitTextToCircle);
+  }
+
+  /* ── Re-run on resize via ResizeObserver ─────── */
+  const ro = new ResizeObserver(() => fitTextToCircle());
+  ro.observe(arcSizer);
+
+  /* ── Scroll rotation ────────────────────────── */
+  window.addEventListener('scroll', () => {
+    arcSvg.style.transform = `rotate(${window.scrollY * 0.04}deg)`;
+  }, { passive: true });
+
+})();
