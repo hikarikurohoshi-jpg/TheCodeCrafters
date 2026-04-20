@@ -1,37 +1,30 @@
-
-
 .slider {
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
-  width: 180px;
-  height: 140px;
+  width: var(--hero-slider-width, clamp(96px, 18vw, 180px));
+  height: var(--hero-slider-height, calc(var(--hero-slider-width, 180px) * 0.7778));
   transform-style: preserve-3d;
-
-
   animation: autoRun 20s linear infinite;
-  animation-play-state: paused;       /* paused when intro animation and shits is playing */
-
+  animation-play-state: paused;
   z-index: 1;
 }
-
 
 .slider.is-spinning {
   animation-play-state: running;
 }
 
 @keyframes autoRun {
-  from { transform: perspective(1000px) rotateX(-16deg) rotateY(0deg);   }
+  from { transform: perspective(1000px) rotateX(-16deg) rotateY(0deg); }
   to   { transform: perspective(1000px) rotateX(-16deg) rotateY(360deg); }
 }
 
-/* ── Items ────────────────────────────────────────────────── */
 .slider .item {
   position: absolute;
   inset: 0;
   transform:
     rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-    translateZ(380px);
+    translateZ(clamp(136px, calc(var(--hero-slider-width, 180px) * 2.1), 380px));
   border-radius: 14px;
   overflow: visible;
 }
@@ -46,7 +39,6 @@
   z-index: 1;
 }
 
-/* Blue border ring */
 .slider .item::before {
   content: '';
   position: absolute;
@@ -57,7 +49,6 @@
   pointer-events: none;
 }
 
-/* Cyan depth ring */
 .slider .item::after {
   content: '';
   position: absolute;
@@ -69,27 +60,42 @@
   pointer-events: none;
 }
 
-/* ── Responsive ──────────────────────────────────────────── */
-@media (max-width: 1024px) {
-  .slider {
-    width: 160px;
-    height: 125px;
-  }
+@media (max-width: 480px) {
   .slider .item {
-    transform:
-      rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-      translateZ(320px);
+    border-radius: 9px;
+  }
+
+  .slider .item img {
+    border-radius: 9px;
+  }
+
+  .slider .item::before {
+    inset: -3px;
+    border-radius: 11px;
+  }
+
+  .slider .item::after {
+    inset: 4px;
+    border-radius: 11px;
   }
 }
 
-@media (max-width: 768px) {
-  .slider {
-    width: 130px;
-    height: 100px;
-  }
+@media (max-width: 360px) {
   .slider .item {
-    transform:
-      rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-      translateZ(240px);
+    border-radius: 7px;
+  }
+
+  .slider .item img {
+    border-radius: 7px;
+  }
+
+  .slider .item::before {
+    inset: -2px;
+    border-radius: 9px;
+  }
+
+  .slider .item::after {
+    inset: 3px;
+    border-radius: 9px;
   }
 }

@@ -59,8 +59,9 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   font-family: 'Montserrat', sans-serif;
-  background-color: var(--silver-gray);
+  background-color: var(--white);
   color: var(--graphite-black);
+  overflow-x: hidden;
 }
 img,
 picture,
@@ -140,8 +141,8 @@ p, h1, h2, h3, h4, h5, h6 {
   padding-inline: clamp(1rem, 4vw, 2rem);
 
   /* Replace 120vh with auto + a min-height */
-  min-height: 100dvh; /* dvh = dynamic viewport height (safe on mobile) */
-  height: auto;       /* grows with content beyond that floor */
+  min-height: auto;
+  height: auto;
 
 
   /* border: 1px solid #000; */
@@ -154,14 +155,13 @@ p, h1, h2, h3, h4, h5, h6 {
 /* ─── Responsive overrides ─── */
 @media (max-width: 768px) {
   .container {
-    min-height: 100dvh;
-    padding-inline: 1rem; /* fixed padding on small screens */
+    padding-inline: 0;
   }
 }
 
 @media (max-width: 480px) {
   .container {
-    padding-inline: 0.75rem;
+    padding-inline: 0;
   }
 }
 

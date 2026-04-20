@@ -42,21 +42,34 @@ window.buildHomeEntranceTL = function () {
   if (headlineWrapper) headlineWrapper.style.opacity = '1';
 
   /* ── Split headline into character spans ─────────────── */
-  const rawText = headline.innerText.trim();
-  const lines   = rawText.split('\n');
-  let   html    = '';
+  const rawText = headline.innerText.replace(/\s+/g, ' ').trim();
+  let html = '';
+  const words = rawText.split(' ');
+  const groups = [];
 
-  lines.forEach((line, li) => {
-    const trimmed = line.trim();
-    if (!trimmed) return;
+  for (let i = 0; i < words.length; i += 1) {
+    if (i === 0 && words[i + 1]) {
+      groups.push(`${words[i]} ${words[i + 1]}`);
+      i += 1;
+    } else {
+      groups.push(words[i]);
+    }
+  }
 
-    [...trimmed].forEach(ch => {
+  groups.forEach((group, gi) => {
+    html += `<span class="tw-word" style="display:inline-block;white-space:nowrap;">`;
+
+    [...group].forEach(ch => {
       html += ch === ' '
         ? `<span class="tw-char" style="display:inline-block;opacity:0;white-space:pre;"> </span>`
         : `<span class="tw-char" style="display:inline-block;opacity:0;">${ch}</span>`;
     });
 
-    if (li < lines.length - 1) html += '<br>';
+    html += `</span>`;
+
+    if (gi < groups.length - 1) {
+      html += `<span class="tw-space" style="display:inline-block;white-space:pre;"> </span>`;
+    }
   });
 
   headline.innerHTML = html;

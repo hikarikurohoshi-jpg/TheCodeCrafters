@@ -283,7 +283,7 @@
     .expand svg { width: 16px; height: 16px; stroke: var(--white); fill: none; }
 
     @media (max-width: 640px) {
-      body { padding: 28px 18px 48px; }
+      .officer-grid { padding: 28px 18px 48px; }
       .hero-row { flex-direction: column; }
       .hero-card { width: 100%; }
       .intro { grid-template-columns: 1fr; gap: 20px; }

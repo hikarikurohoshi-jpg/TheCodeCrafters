@@ -272,7 +272,7 @@ function handleCard(name) {
   /* ── Constants ─────────────────────────────── */
   const RADIUS        = 400;                        // SVG units — matches circle-path
   const CIRCUMFERENCE = 2 * Math.PI * RADIUS;      // ≈ 2513.27 SVG units
-  const TEXT_CONTENT  = 'CONNECT WITH US ✦ CONNECT WITH US ✦';
+  const TEXT_CONTENT  = 'CONNECT WITH US ✦CONNECT WITH US ✦';
 
   /* ── Core fitter ────────────────────────────── */
   function fitTextToCircle() {

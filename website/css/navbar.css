@@ -225,13 +225,26 @@ opacity: 0;
   .nav {
     height: var(--nav-height-mobile);
     justify-content: flex-start;
-    padding: 0 10px;
+    padding: 0 24px;
   }
 
   .nav-logo {
-    position: relative;
-    left: -15px;
+    position: fixed;
+    top: 14px;
+    left: 24px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transform: none;
+    margin-left: 0;
+    z-index: 999999;
+  }
+
+  .nav-logo-img {
+    height: 32px;
+    width: auto;
+    max-width: none;
   }
 
   .nav-links-left,
@@ -241,6 +254,7 @@ opacity: 0;
 
   .nav-toggle {
     display: flex;
+    right: 24px;
   }
 
    .mobile-menu {
