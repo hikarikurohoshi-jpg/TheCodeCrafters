@@ -59,9 +59,13 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   font-family: 'Montserrat', sans-serif;
-  background-color: var(--white);
+  background-color: var(--silver-gray);
   color: var(--graphite-black);
   overflow-x: hidden;
+}
+
+main {
+  background-color: var(--silver-gray);
 }
 img,
 picture,

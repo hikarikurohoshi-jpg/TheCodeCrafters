@@ -45,18 +45,8 @@ window.buildHomeEntranceTL = function () {
   const rawText = headline.innerText.replace(/\s+/g, ' ').trim();
   let html = '';
   const words = rawText.split(' ');
-  const groups = [];
 
-  for (let i = 0; i < words.length; i += 1) {
-    if (i === 0 && words[i + 1]) {
-      groups.push(`${words[i]} ${words[i + 1]}`);
-      i += 1;
-    } else {
-      groups.push(words[i]);
-    }
-  }
-
-  groups.forEach((group, gi) => {
+  words.forEach((group, gi) => {
     html += `<span class="tw-word" style="display:inline-block;white-space:nowrap;">`;
 
     [...group].forEach(ch => {
@@ -67,7 +57,7 @@ window.buildHomeEntranceTL = function () {
 
     html += `</span>`;
 
-    if (gi < groups.length - 1) {
+    if (gi < words.length - 1) {
       html += `<span class="tw-space" style="display:inline-block;white-space:pre;"> </span>`;
     }
   });
