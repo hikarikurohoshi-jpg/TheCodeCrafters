@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
      Initial state: nav hidden (home.js will animate it in)
   ---------------------------------------------------------- */
   gsap.set(nav, { y: -80, opacity: 0 });
+  gsap.set(toggle, { y: -16, autoAlpha: 0 });
 
   gsap.set([line1, line2], {
     clearProps: 'all',

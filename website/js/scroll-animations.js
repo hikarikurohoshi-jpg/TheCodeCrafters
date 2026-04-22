@@ -44,6 +44,7 @@
     /* ── helpers ──────────────────────────────────────── */
     const qs  = (sel, ctx = document) => ctx.querySelector(sel);
     const qsa = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
+    const isMobile = window.matchMedia('(max-width: 900px)').matches;
 
     /* ease presets */
     const EASE_OUT  = 'expo.out';
@@ -112,42 +113,68 @@
       });
     }
 
+    function createSimpleReveal(
+      target,
+      fromVars,
+      toVars,
+      trigger,
+      start = 'top 88%'
+    ) {
+      if (!target) return;
+
+      gsap.set(target, fromVars);
+
+      ScrollTrigger.create({
+        trigger: trigger || target,
+        start,
+        onEnter() {
+          gsap.to(target, {
+            ...toVars,
+            overwrite: 'auto'
+          });
+        },
+        onLeaveBack() {
+          gsap.set(target, fromVars);
+        }
+      });
+    }
+
 
     /* ══════════════════════════════════════════════════
        1.  HOME — EXIT  (scroll away)
            and RE-ENTRANCE (scroll back)
     ══════════════════════════════════════════════════ */
-    setupHomeScrollBehavior(qs, qsa, EASE_IN, EASE_OUT, DUR_FAST, DUR_MED);
+    setupHomeScrollBehavior(qs, qsa, EASE_IN, EASE_OUT, DUR_FAST, DUR_MED, isMobile);
 
 
     /* ══════════════════════════════════════════════════
        2.  ABOUT
     ══════════════════════════════════════════════════ */
-    setupAbout(qs, qsa, EASE_OUT, DUR_MED, DUR_SLOW, createResettingReveal);
+    setupAbout(qs, qsa, EASE_OUT, DUR_MED, DUR_SLOW, createResettingReveal, createSimpleReveal, isMobile);
 
 
     /* ══════════════════════════════════════════════════
        3.  OFFICERS
     ══════════════════════════════════════════════════ */
-    setupOfficers(qs, qsa, EASE_OUT, DUR_MED, createResettingReveal);
+    setupOfficers(qs, qsa, EASE_OUT, DUR_MED, createResettingReveal, createSimpleReveal, isMobile);
 
 
     /* ══════════════════════════════════════════════════
        4.  ACTIVITIES
     ══════════════════════════════════════════════════ */
-    setupActivities(qs, qsa, EASE_OUT, DUR_MED, DUR_SLOW, createResettingReveal);
+    setupActivities(qs, qsa, EASE_OUT, DUR_MED, DUR_SLOW, createResettingReveal, createSimpleReveal, isMobile);
 
 
     /* ══════════════════════════════════════════════════
        5.  CONTACT
     ══════════════════════════════════════════════════ */
-    setupContact(qs, qsa, EASE_OUT, DUR_MED, createResettingReveal);
+    setupContact(qs, qsa, EASE_OUT, DUR_MED, createResettingReveal, createSimpleReveal, isMobile);
 
 
     /* ══════════════════════════════════════════════════
        6.  FOOTER
     ══════════════════════════════════════════════════ */
-    setupFooter(qs, qsa, EASE_OUT, DUR_MED, createResettingReveal);
+    setupFooter(qs, qsa, isMobile);
 
   } // end setup()
 
@@ -155,7 +182,7 @@
   /* ══════════════════════════════════════════════════════
      HOME SCROLL BEHAVIOR
   ══════════════════════════════════════════════════════ */
-  function setupHomeScrollBehavior(qs, qsa, EASE_IN, EASE_OUT, DUR_FAST, DUR_MED) {
+  function setupHomeScrollBehavior(qs, qsa, EASE_IN, EASE_OUT, DUR_FAST, DUR_MED, isMobile) {
 
     const homeSection   = qs('.home');
     if (!homeSection) return;
@@ -166,6 +193,10 @@
     const subWrapper    = qs('.hero-sub-wrapper');
     const sliderEl      = qs('.slider-entrance');
     const nav           = qs('.nav');
+
+    if (isMobile) {
+      return;
+    }
 
     /* Track whether the home elements are currently visible */
     let homeVisible = true;
@@ -274,7 +305,7 @@
   /* ══════════════════════════════════════════════════════
      ABOUT
   ══════════════════════════════════════════════════════ */
-  function setupAbout(qs, qsa, EASE_OUT, DUR_MED, DUR_SLOW, createResettingReveal) {
+  function setupAbout(qs, qsa, EASE_OUT, DUR_MED, DUR_SLOW, createResettingReveal, createSimpleReveal, isMobile) {
 
     const section = qs('#about');
     if (!section) return;
@@ -284,6 +315,35 @@
     const desc    = qs('.box-desc',     section);
     const imgBox  = qs('.box-left',     section);
     const cards   = qsa('.box-mission, .box-vision, .box-value', section);
+
+    if (isMobile) {
+      createSimpleReveal(
+        title,
+        { y: 28, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.55, ease: EASE_OUT },
+        title,
+        'top 88%'
+      );
+
+      createSimpleReveal(
+        divLine,
+        { scaleX: 0, transformOrigin: 'left center' },
+        { scaleX: 1, duration: 0.55, ease: EASE_OUT, transformOrigin: 'left center' },
+        title,
+        'top 88%'
+      );
+
+      [desc, imgBox, ...cards].forEach((el, i) => {
+        createSimpleReveal(
+          el,
+          { y: 32, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.55, delay: i * 0.06, ease: EASE_OUT },
+          el,
+          'top 90%'
+        );
+      });
+      return;
+    }
 
     /* ── Title & divider ──────────────────────────────── */
     if (title) {
@@ -349,7 +409,7 @@
   /* ══════════════════════════════════════════════════════
      OFFICERS
   ══════════════════════════════════════════════════════ */
-  function setupOfficers(qs, qsa, EASE_OUT, DUR_MED, createResettingReveal) {
+  function setupOfficers(qs, qsa, EASE_OUT, DUR_MED, createResettingReveal, createSimpleReveal, isMobile) {
 
     const section = qs('#officers');
     if (!section) return;
@@ -357,6 +417,36 @@
     /* ── Hero row (headline + president card) ───────── */
     const heroLeft = qs('.hero-left',  section);
     const heroCard = qs('.hero-card',  section);
+
+    if (isMobile) {
+      createSimpleReveal(
+        heroLeft,
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.55, ease: EASE_OUT },
+        heroLeft,
+        'top 88%'
+      );
+
+      createSimpleReveal(
+        heroCard,
+        { y: 34, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, ease: EASE_OUT },
+        heroCard,
+        'top 90%'
+      );
+
+      const cards = qsa('.team-grid .card', section);
+      cards.forEach((card, i) => {
+        createSimpleReveal(
+          card,
+          { y: 34, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, delay: (i % 2) * 0.04, ease: EASE_OUT },
+          card,
+          'top 92%'
+        );
+      });
+      return;
+    }
 
     createResettingReveal(
       heroLeft,
@@ -405,13 +495,47 @@
   /* ══════════════════════════════════════════════════════
      ACTIVITIES
   ══════════════════════════════════════════════════════ */
-  function setupActivities(qs, qsa, EASE_OUT, DUR_MED, DUR_SLOW, createResettingReveal) {
+  function setupActivities(qs, qsa, EASE_OUT, DUR_MED, DUR_SLOW, createResettingReveal, createSimpleReveal, isMobile) {
 
     const section = qs('#activities');
     if (!section) return;
 
     const header   = qs('.header',  section);
     const folders  = qsa('.folder', section);
+
+    if (isMobile) {
+      if (header) {
+        const title = qs('.header-title', header);
+        const desc  = qs('.header-desc',  header);
+
+        createSimpleReveal(
+          title,
+          { y: 24, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, ease: EASE_OUT },
+          title,
+          'top 88%'
+        );
+
+        createSimpleReveal(
+          desc,
+          { y: 24, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.55, ease: EASE_OUT },
+          desc,
+          'top 90%'
+        );
+      }
+
+      folders.forEach((folder, i) => {
+        createSimpleReveal(
+          folder,
+          { y: 36, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.55, delay: i * 0.05, ease: EASE_OUT },
+          folder,
+          'top 92%'
+        );
+      });
+      return;
+    }
 
     /* ── Header ──────────────────────────────────────── */
     if (header) {
@@ -462,7 +586,7 @@
   /* ══════════════════════════════════════════════════════
      CONTACT
   ══════════════════════════════════════════════════════ */
-  function setupContact(qs, qsa, EASE_OUT, DUR_MED, createResettingReveal) {
+  function setupContact(qs, qsa, EASE_OUT, DUR_MED, createResettingReveal, createSimpleReveal, isMobile) {
 
     const section = qs('#contact');
     if (!section) return;
@@ -470,6 +594,44 @@
     const arcWrap   = qs('.arc-wrap',          section);
     const arcSvg    = qs('.arc-svg',           section);
     const infoPanel = qs('.contact-info-panel', section);
+
+    if (isMobile) {
+      createSimpleReveal(
+        arcWrap,
+        { y: 30, opacity: 0, scale: 0.96 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: EASE_OUT },
+        arcWrap,
+        'top 88%'
+      );
+
+      createSimpleReveal(
+        arcSvg,
+        { rotation: -45, opacity: 1, transformOrigin: '50% 50%' },
+        { rotation: 0, opacity: 1, duration: 0.8, ease: EASE_OUT, transformOrigin: '50% 50%' },
+        arcWrap || arcSvg,
+        'top 82%'
+      );
+
+      createSimpleReveal(
+        infoPanel,
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.55, ease: EASE_OUT },
+        infoPanel,
+        'top 92%'
+      );
+
+      const blocks = qsa('.contact-info-block', section);
+      blocks.forEach((block, i) => {
+        createSimpleReveal(
+          block,
+          { y: 24, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, delay: i * 0.08, ease: EASE_OUT },
+          block,
+          'top 94%'
+        );
+      });
+      return;
+    }
 
     createResettingReveal(
       arcSvg,
@@ -521,7 +683,7 @@
   /* ══════════════════════════════════════════════════════
      FOOTER
   ══════════════════════════════════════════════════════ */
-  function setupFooter(qs, qsa) {
+  function setupFooter(qs, qsa, isMobile) {
 
     const footer = qs('footer');
     if (!footer) return;
@@ -539,6 +701,46 @@
     const copy = qs('.footer-copy', footer);
 
     const liftTrigger = contactSection || footer;
+
+    if (isMobile) {
+      gsap.set(footer, {
+        yPercent: 22,
+        force3D: true
+      });
+
+      gsap.set([brand, grid, bottom, brandLogo, brandName, brandSub, aboutCol, navCol, copy], {
+        y: 24,
+        opacity: 0,
+        force3D: true
+      });
+
+      gsap.set(navLinks, {
+        y: 14,
+        opacity: 0,
+        force3D: true
+      });
+
+      const footerTL = gsap.timeline({
+        defaults: {
+          ease: 'none',
+          overwrite: 'auto'
+        },
+        scrollTrigger: {
+          trigger: liftTrigger,
+          start: contactSection ? 'bottom bottom' : 'top bottom',
+          end: contactSection ? 'bottom 55%' : 'top 55%',
+          scrub: 0.35
+        }
+      });
+
+      footerTL
+        .to(footer, { yPercent: 0 }, 0)
+        .to([brand, grid, bottom], { y: 0, opacity: 1, stagger: 0.08 }, 0.12)
+        .to([brandLogo, brandName, brandSub, aboutCol, navCol, copy], { y: 0, opacity: 1, stagger: 0.04 }, 0.18)
+        .to(navLinks, { y: 0, opacity: 1, stagger: 0.03 }, 0.24);
+
+      return;
+    }
 
     gsap.set(footer, {
       yPercent: 48,

@@ -181,7 +181,11 @@ p, h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-
+  padding:
+    max(20px, env(safe-area-inset-top))
+    max(20px, env(safe-area-inset-right))
+    max(20px, env(safe-area-inset-bottom))
+    max(20px, env(safe-area-inset-left));
   z-index: 999999;
 }
 
@@ -206,27 +210,78 @@ p, h1, h2, h3, h4, h5, h6 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-   color: #fff;
+  justify-content: center;
+  gap: clamp(8px, 1.6vw, 14px);
+  width: min(100%, 520px);
+  max-width: 100%;
+  padding-inline: clamp(12px, 4vw, 28px);
+  color: #fff;
 }
 
 /* LOGO IMAGE */
 .logo-img {
-  width: clamp(80px, 12vw, 140px);
+  width: clamp(72px, 18vw, 140px);
   height: auto;
   object-fit: contain;
 }
 .logo-wrap h1 {
   font-family: 'Modius';
-  font-size: 20px;
+  font-size: clamp(1rem, 4.8vw, 1.5rem);
   font-weight: 700;
+  line-height: 1.15;
+  max-width: 18ch;
+  text-wrap: balance;
 }
 
 .logo-wrap p {
   font-family: 'Modius';
   font-weight: 400;
-  font-size: 12px;
-  letter-spacing: 4px;
-  margin-top: 8px;
+  font-size: clamp(0.58rem, 2.3vw, 0.82rem);
+  letter-spacing: clamp(0.16em, 0.6vw, 0.32em);
+  margin-top: clamp(2px, 1vw, 8px);
   color: var(--electric-cyan);
+  text-transform: uppercase;
+  max-width: 24ch;
+  text-wrap: balance;
+}
+
+@media (max-width: 600px) {
+  .logo-wrap {
+    width: min(100%, 360px);
+  }
+
+  .logo-img {
+    width: clamp(68px, 22vw, 104px);
+  }
+}
+
+@media (max-width: 380px) {
+  .intro-screen {
+    padding:
+      max(16px, env(safe-area-inset-top))
+      max(16px, env(safe-area-inset-right))
+      max(16px, env(safe-area-inset-bottom))
+      max(16px, env(safe-area-inset-left));
+  }
+
+  .logo-wrap {
+    width: min(100%, 300px);
+    gap: 8px;
+    padding-inline: 10px;
+  }
+}
+
+@media (max-height: 720px) {
+  .logo-img {
+    width: clamp(64px, 14vh, 108px);
+  }
+
+  .logo-wrap h1 {
+    font-size: clamp(0.96rem, 3.5vh, 1.3rem);
+  }
+
+  .logo-wrap p {
+    font-size: clamp(0.54rem, 1.8vh, 0.72rem);
+    margin-top: 2px;
+  }
 }

@@ -350,7 +350,7 @@
 .lightbox-overlay {
   position: fixed;
   inset: 0;
-  z-index: 99999;
+  z-index: 1000001;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -408,13 +408,29 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
   flex-shrink: 0;
+  opacity: 0;
+  transform: scale(0.82) rotate(-18deg);
+}
+
+.lightbox-overlay.is-open .lightbox-close {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
 }
 
 .lightbox-close:hover {
   background: rgba(255, 255, 255, 0.25);
   transform: scale(1.1) rotate(90deg);
+}
+
+.lightbox-close:active {
+  transform: scale(0.92) rotate(0deg);
+}
+
+.lightbox-close:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.7);
+  outline-offset: 3px;
 }
 
 .lightbox-close svg {
