@@ -328,8 +328,4 @@ function handleCard(name) {
   ro.observe(arcSizer);
 
   /* ── Scroll rotation ────────────────────────── */
-  window.addEventListener('scroll', () => {
-    arcSvg.style.transform = `rotate(${window.scrollY * 0.04}deg)`;
-  }, { passive: true });
-
 })();

@@ -3,6 +3,8 @@
 .contact {
   background-color: var(--silver-gray);
   width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .contact .container {
@@ -160,7 +162,7 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.arc-wrap          { animation: contactFadeUp 1.1s cubic-bezier(.16,1,.3,1) both; }
+.arc-wrap          { animation: none; }
 .contact-info-panel { animation: contactFadeUp 1.1s 0.18s cubic-bezier(.16,1,.3,1) both; }
 
 /* ════════════════════════════════
