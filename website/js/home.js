@@ -47,19 +47,14 @@ window.buildHomeEntranceTL = function () {
   const words = rawText.split(' ');
 
   words.forEach((group, gi) => {
-    html += `<span class="tw-word" style="display:inline-block;white-space:nowrap;">`;
+    const gapStyle = gi < words.length - 1 ? 'margin-right:0.28em;' : '';
+    html += `<span class="tw-word" style="display:inline-block;white-space:nowrap;${gapStyle}">`;
 
     [...group].forEach(ch => {
-      html += ch === ' '
-        ? `<span class="tw-char" style="display:inline-block;opacity:0;white-space:pre;"> </span>`
-        : `<span class="tw-char" style="display:inline-block;opacity:0;">${ch}</span>`;
+      html += `<span class="tw-char" style="display:inline-block;opacity:0;">${ch}</span>`;
     });
 
     html += `</span>`;
-
-    if (gi < words.length - 1) {
-      html += `<span class="tw-space" style="display:inline-block;white-space:pre;"> </span>`;
-    }
   });
 
   headline.innerHTML = html;

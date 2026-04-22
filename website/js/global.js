@@ -7,14 +7,26 @@ if ("scrollRestoration" in history) {
   history.scrollRestoration = "manual";
 }
 
-window.addEventListener("beforeunload", () => window.scrollTo(0, 0));
-
-window.addEventListener("load", () => {
+function resetToHomeOnReload() {
+  const previousScrollBehavior = document.documentElement.style.scrollBehavior;
+  document.documentElement.style.scrollBehavior = "auto";
+  if (window.location.hash) {
+    history.replaceState(null, "", window.location.pathname + window.location.search);
+  }
   window.scrollTo(0, 0);
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
-  if (window.location.hash) history.replaceState(null, null, " ");
-});
+  requestAnimationFrame(() => {
+    document.documentElement.style.scrollBehavior = previousScrollBehavior;
+  });
+}
+
+resetToHomeOnReload();
+
+window.addEventListener("beforeunload", () => window.scrollTo(0, 0));
+window.addEventListener("DOMContentLoaded", resetToHomeOnReload);
+window.addEventListener("load", resetToHomeOnReload);
+window.addEventListener("pageshow", resetToHomeOnReload);
 
 
 /* ── Master intro + homepage entrance ───────────────────────── */

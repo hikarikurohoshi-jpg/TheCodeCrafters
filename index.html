@@ -6,6 +6,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Code Crafters</title>
   <link rel="icon" type="image/png" href="assets/tcc-logo/ibon-logo.png" />
+  <script>
+    (function () {
+      var navEntries = window.performance && performance.getEntriesByType
+        ? performance.getEntriesByType("navigation")
+        : [];
+      var navType = navEntries.length ? navEntries[0].type : "";
+
+      if (!navType && window.performance && performance.navigation) {
+        navType = performance.navigation.type === 1 ? "reload" : "";
+      }
+
+      if (navType !== "reload") {
+        return;
+      }
+
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+
+      document.documentElement.style.scrollBehavior = "auto";
+
+      if (window.location.hash) {
+        history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
+
+      function resetToTop() {
+        window.scrollTo(0, 0);
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      }
+
+      resetToTop();
+      window.addEventListener("DOMContentLoaded", resetToTop);
+      window.addEventListener("load", function () {
+        requestAnimationFrame(function () {
+          requestAnimationFrame(resetToTop);
+        });
+      });
+      window.addEventListener("pageshow", resetToTop);
+    })();
+  </script>
 
   <!-- Font style from google shits  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -663,7 +704,7 @@
               <span class="contact-info-label">Facebook Page</span>
               <div class="contact-info-lines">
                 The Code Crafters<br>
-                <a href="https://facebook.com/thecodecrafters" target="_blank" rel="noopener">facebook.com/thecodecrafters</a>
+                <a href="https://www.facebook.com/codecrafters.icct" target="_blank" rel="noopener">facebook.com/codecrafters.icct</a>
               </div>
             </div>
  
@@ -673,7 +714,7 @@
               <span class="contact-info-label">Discord Server</span>
               <div class="contact-info-lines">
                 The Code Crafters Guild<br>
-                <a href="https://discord.gg/thecodecrafters" target="_blank" rel="noopener">discord.gg/thecodecrafters</a>
+                <a href="https://discord.gg/Hatv5sx9pj" target="_blank" rel="noopener">Join our Discord Server</a>
               </div>
             </div>
  

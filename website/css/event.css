@@ -306,6 +306,10 @@
   }
 
   .header-desc {
+    font-size: 14px;
+  }
+
+  .card-desc {
     font-size: 13px;
   }
 }
@@ -331,7 +335,11 @@
   }
 
   .header-desc {
-    font-size: 12px;
+    font-size: 14px;
+  }
+
+  .card-desc {
+    font-size: 13px;
   }
 }
 
