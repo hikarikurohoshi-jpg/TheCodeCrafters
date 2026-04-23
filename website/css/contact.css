@@ -120,17 +120,19 @@
 }
 
 .contact-info-lines a {
-  color:var(--mute);
+  color: var(--royal-blue);
   text-decoration: none;
   transition: color 0.2s;
   display: inline-flex;
   align-items: center;
   gap: 0px;
+  font-style: italic;
 }
 
 .contact-info-lines a::after {
   content: '↗';
   font-size: 0.75em;
+  color: var(--royal-blue);
   opacity: 0;
   transform: translate(-4px, 4px);
   transition: opacity 0.2s, transform 0.2s;
@@ -138,7 +140,7 @@
 }
 
 .contact-info-lines a:hover {
-  color: var(--graphite-black);
+  color: var(--royal-blue);
   gap: 4px;
 }
 
