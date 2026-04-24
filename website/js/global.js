@@ -3,30 +3,45 @@
 // ─────────────────────────────────────────────────────────────────
 
 /* ── Scroll restoration ──────────────────────────────────────── (need to fix this shits)*/ 
-if ("scrollRestoration" in history) {
-  history.scrollRestoration = "manual";
-}
+(function () {
+  var navEntries = window.performance && performance.getEntriesByType
+    ? performance.getEntriesByType("navigation")
+    : [];
+  var navType = navEntries.length ? navEntries[0].type : "";
 
-function resetToHomeOnReload() {
-  const previousScrollBehavior = document.documentElement.style.scrollBehavior;
+  if (!navType && window.performance && performance.navigation) {
+    navType = performance.navigation.type === 1 ? "reload" : "";
+  }
+
+  if (navType !== "reload") {
+    return;
+  }
+
+  if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+  }
+
   document.documentElement.style.scrollBehavior = "auto";
+
   if (window.location.hash) {
     history.replaceState(null, "", window.location.pathname + window.location.search);
   }
-  window.scrollTo(0, 0);
-  document.documentElement.scrollTop = 0;
-  document.body.scrollTop = 0;
-  requestAnimationFrame(() => {
-    document.documentElement.style.scrollBehavior = previousScrollBehavior;
+
+  function resetToTop() {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }
+
+  resetToTop();
+  window.addEventListener("DOMContentLoaded", resetToTop);
+  window.addEventListener("load", function () {
+    requestAnimationFrame(function () {
+      requestAnimationFrame(resetToTop);
+    });
   });
-}
-
-resetToHomeOnReload();
-
-window.addEventListener("beforeunload", () => window.scrollTo(0, 0));
-window.addEventListener("DOMContentLoaded", resetToHomeOnReload);
-window.addEventListener("load", resetToHomeOnReload);
-window.addEventListener("pageshow", resetToHomeOnReload);
+  window.addEventListener("pageshow", resetToTop);
+})();
 
 
 /* ── Master intro + homepage entrance ───────────────────────── */

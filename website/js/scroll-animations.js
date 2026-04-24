@@ -201,7 +201,7 @@
     /* Track whether the home elements are currently visible */
     let homeVisible = true;
     let reEnterTL = null;
-    const REENTER_FAST = 0.3;
+    const REENTER_FAST = 0.48;
 
     /* ── EXIT tween (stored so we can reverse / kill it) ─── */
     function buildExitTween() {
@@ -237,11 +237,11 @@
 
       reEnterTL
         /* reset positions */
-        .set(nav,         { y: -56, opacity: 0 })
-        .set(badge,       { y: -20, opacity: 0 })
-        .set(headlineWrap,{ y: -40, opacity: 0 })
-        .set(subWrapper,  { y:  28, opacity: 0 })
-        .set(sliderEl,    { scale: 0.82, autoAlpha: 0, y: 20 })
+        .set(nav,         { y: -36, opacity: 0 })
+        .set(badge,       { y: -14, opacity: 0 })
+        .set(headlineWrap,{ y: -24, opacity: 0 })
+        .set(subWrapper,  { y:  18, opacity: 0 })
+        .set(sliderEl,    { scale: 0.9, autoAlpha: 0, y: 14 })
 
         /* typewriter re-play */
         .set(twChars.length ? twChars : [headline], { opacity: 0 })
@@ -254,16 +254,16 @@
         .to({}, { duration: 0.03 })
 
         /* chrome in */
-        .to(nav,          { y: 0, opacity: 1,    duration: REENTER_FAST, ease: EASE_OUT }, '+=0')
-        .to(badge,        { y: 0, opacity: 1,    duration: REENTER_FAST, ease: EASE_OUT }, '<')
-        .to(headlineWrap, { y: 0, opacity: 1,    duration: REENTER_FAST, ease: EASE_OUT }, '<')
-        .to(subWrapper,   { y: 0, opacity: 1,    duration: REENTER_FAST, ease: EASE_OUT }, '<')
-        .to(sliderEl,     { scale: 1, autoAlpha: 1, y: 0, duration: REENTER_FAST, ease: EASE_OUT,
+        .to(nav,          { y: 0, opacity: 1,    duration: REENTER_FAST, ease: 'power3.out' }, '+=0')
+        .to(badge,        { y: 0, opacity: 1,    duration: REENTER_FAST, ease: 'power3.out' }, '<+0.02')
+        .to(headlineWrap, { y: 0, opacity: 1,    duration: REENTER_FAST + 0.06, ease: 'power3.out' }, '<')
+        .to(subWrapper,   { y: 0, opacity: 1,    duration: REENTER_FAST + 0.08, ease: 'power2.out' }, '<+0.03')
+        .to(sliderEl,     { scale: 1, autoAlpha: 1, y: 0, duration: REENTER_FAST + 0.12, ease: 'power3.out',
             onComplete() {
               const sl = qs('.slider');
               if (sl) sl.classList.add('is-spinning');
             }
-          }, '<+=0.01');
+          }, '<+0.05');
     }
 
     /* ── EXIT on scroll away ──────────────────────────── */
@@ -313,6 +313,7 @@
     const title   = qs('.title-box',    section);
     const divLine = qs('.box-top-line', section);
     const desc    = qs('.box-desc',     section);
+    const descLines = qsa('.desc-line', desc);
     const imgBox  = qs('.box-left',     section);
     const cards   = qsa('.box-mission, .box-vision, .box-value', section);
 
@@ -333,7 +334,39 @@
         'top 88%'
       );
 
-      [desc, imgBox, ...cards].forEach((el, i) => {
+      if (descLines.length) {
+        gsap.set(descLines, { y: 26, opacity: 0, force3D: true });
+
+        gsap.timeline({
+          defaults: { overwrite: 'auto' },
+          scrollTrigger: {
+            trigger: desc,
+            start: 'top 92%',
+            end: 'top 48%',
+            scrub: 0.3
+          }
+        })
+          .to(descLines, {
+            y: 0,
+            opacity: 1,
+            duration: 0.4,
+            stagger: 0.08,
+            ease: 'none'
+          }, 0)
+          .to({}, { duration: 0.14 })
+          .to(descLines, {
+            y: -26,
+            opacity: 0,
+            duration: 0.55,
+            stagger: {
+              each: 0.12,
+              from: 'end'
+            },
+            ease: 'none'
+          }, '+=0');
+      }
+
+      [imgBox, ...cards].forEach((el, i) => {
         createSimpleReveal(
           el,
           { y: 32, opacity: 0 },
@@ -352,8 +385,8 @@
         { x: -60, opacity: 0 },
         { x: 0, opacity: 1, duration: DUR_MED, ease: EASE_OUT },
         title,
-        'top 70%'
-        // 'bottom 0%'
+        'top 70%',
+        'bottom -1%'
       );
 
       if (divLine) {
@@ -362,20 +395,44 @@
           { scaleX: 0, transformOrigin: 'left center' },
           { scaleX: 1, duration: DUR_SLOW, ease: EASE_OUT, delay: 0.08, transformOrigin: 'left center' },
           title,
-          'top 70%'
-        //   'bottom 0%'
+          'top 70%',
+          'bottom -1%'
         );
       }
     }
 
     /* ── Description ──────────────────────────────────── */
-    createResettingReveal(
-      desc,
-      { x: 60, opacity: 0 },
-      { x: 0, opacity: 1, duration: DUR_MED, ease: EASE_OUT, delay: 0.04 },
-      desc,
-      'top 60%'
-    );
+    if (descLines.length) {
+      gsap.set(descLines, { x: 60, opacity: 0, force3D: true });
+
+      gsap.timeline({
+        defaults: { overwrite: 'auto' },
+        scrollTrigger: {
+          trigger: desc,
+          start: 'top 60%',
+          end: 'bottom 12%',
+          scrub: 0.35
+        }
+      })
+        .to(descLines, {
+          x: 0,
+          opacity: 1,
+          duration: 0.4,
+          stagger: 0.08,
+          ease: 'none'
+        }, 0)
+        .to({}, { duration: 0.14 })
+        .to(descLines, {
+          x: -60,
+          opacity: 0,
+          duration: 0.55,
+          stagger: {
+            each: 0.12,
+            from: 'end'
+          },
+          ease: 'none'
+        }, '+=0');
+    }
 
     /* ── Left image ──────────────────────────────────── */
     createResettingReveal(

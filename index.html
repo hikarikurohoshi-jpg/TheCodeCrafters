@@ -6,48 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Code Crafters</title>
   <link rel="icon" type="image/png" href="assets/tcc-logo/ibon-logo.png" />
-  <script>
-    (function () {
-      var navEntries = window.performance && performance.getEntriesByType
-        ? performance.getEntriesByType("navigation")
-        : [];
-      var navType = navEntries.length ? navEntries[0].type : "";
-
-      if (!navType && window.performance && performance.navigation) {
-        navType = performance.navigation.type === 1 ? "reload" : "";
-      }
-
-      if (navType !== "reload") {
-        return;
-      }
-
-      if ("scrollRestoration" in history) {
-        history.scrollRestoration = "manual";
-      }
-
-      document.documentElement.style.scrollBehavior = "auto";
-
-      if (window.location.hash) {
-        history.replaceState(null, "", window.location.pathname + window.location.search);
-      }
-
-      function resetToTop() {
-        window.scrollTo(0, 0);
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-      }
-
-      resetToTop();
-      window.addEventListener("DOMContentLoaded", resetToTop);
-      window.addEventListener("load", function () {
-        requestAnimationFrame(function () {
-          requestAnimationFrame(resetToTop);
-        });
-      });
-      window.addEventListener("pageshow", resetToTop);
-    })();
-  </script>
-
   <!-- Font style from google shits  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -225,17 +183,17 @@
         <!-- Description -->
         <div class="box box-desc">
           <h6 class="desc">
-            <span class="desc-one">CodeCrafters Elite Dev Guild </span>
-            <br> is a student-led
-            <br>organization under
-            <br> ICCT Colleges’ College of Computer Studies that focuses on
-            <span class="desc-two">programming
-              and
-              <br>software development,
-              <br> promoting technical skills,
-              <br> ethics, and teamwork </span> through
-            <br>workshops, projects, and
-            <br>competitions.
+            <span class="desc-line"><span class="desc-copy desc-one">CodeCrafters Elite Dev Guild</span></span>
+            <span class="desc-line"><span class="desc-copy">is a student-led</span></span>
+            <span class="desc-line"><span class="desc-copy">organization under</span></span>
+            <span class="desc-line"><span class="desc-copy">ICCT Colleges' College of</span></span>
+            <span class="desc-line"><span class="desc-copy">Computer Studies that focuses</span></span>
+            <span class="desc-line"><span class="desc-two desc-copy"><span class="desc-black">on</span> programming and</span></span>
+            <span class="desc-line"><span class="desc-two desc-copy">software development,</span></span>
+            <span class="desc-line"><span class="desc-two desc-copy">promoting technical skills,</span></span>
+            <span class="desc-line"><span class="desc-two desc-copy">ethics, and teamwork <span class="desc-black">through</span></span></span>
+            <span class="desc-line"><span class="desc-copy">workshops, projects, and</span></span>
+            <span class="desc-line"><span class="desc-copy">competitions.</span></span>
           </h6>
         </div>
 
@@ -787,3 +745,4 @@
 </body>
 
 </html>
+
