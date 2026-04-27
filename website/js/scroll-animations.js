@@ -30,7 +30,14 @@
        register ScrollTriggers (intro is ~3.5 s total).       */
     const INIT_DELAY = 4000; // ms — matches master TL duration
 
-    setTimeout(setup, INIT_DELAY);
+    const resolvedInitDelay = document.querySelector('.home') && !window.__skipHomeIntro ? INIT_DELAY : 0;
+
+    if (resolvedInitDelay) {
+      setTimeout(setup, resolvedInitDelay);
+      return;
+    }
+
+    setup();
   });
 
 
@@ -139,6 +146,43 @@
       });
     }
 
+    function revealTeamGridCards(container, mobileMode = false) {
+      const teamGrids = qsa('.team-grid', container);
+
+      if (mobileMode) {
+        const cards = qsa('.team-grid .card', container);
+        cards.forEach((card, i) => {
+          createSimpleReveal(
+            card,
+            { y: 34, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.5, delay: (i % 2) * 0.04, ease: EASE_OUT },
+            card,
+            'top 92%'
+          );
+        });
+        return;
+      }
+
+      teamGrids.forEach((grid, gi) => {
+        const cards = qsa('.card', grid);
+        cards.forEach((card, ci) => {
+          createResettingReveal(
+            card,
+            { y: 60, opacity: 0, scale: 0.9 },
+            {
+              y: 0,
+              opacity: 1,
+              scale: 1,
+              duration: DUR_MED,
+              ease: EASE_OUT,
+              delay: (gi * 0.08) + (ci * 0.1),
+            },
+            card,
+            'top 90%'
+          );
+        });
+      });
+    }
 
     /* ══════════════════════════════════════════════════
        1.  HOME — EXIT  (scroll away)
@@ -156,7 +200,8 @@
     /* ══════════════════════════════════════════════════
        3.  OFFICERS
     ══════════════════════════════════════════════════ */
-    setupOfficers(qs, qsa, EASE_OUT, DUR_MED, createResettingReveal, createSimpleReveal, isMobile);
+    setupOfficers(qs, qsa, EASE_OUT, DUR_MED, createResettingReveal, createSimpleReveal, revealTeamGridCards, isMobile);
+    setupCommitteePage(qs, qsa, EASE_OUT, DUR_MED, createResettingReveal, createSimpleReveal, revealTeamGridCards, isMobile);
 
 
     /* ══════════════════════════════════════════════════
@@ -466,7 +511,41 @@
   /* ══════════════════════════════════════════════════════
      OFFICERS
   ══════════════════════════════════════════════════════ */
-  function setupOfficers(qs, qsa, EASE_OUT, DUR_MED, createResettingReveal, createSimpleReveal, isMobile) {
+  function setupCommitteePage(qs, qsa, EASE_OUT, DUR_MED, createResettingReveal, createSimpleReveal, revealTeamGridCards, isMobile) {
+
+    const page = qs('.committee-page');
+    if (!page) return;
+
+    const header = qs('.committee-copy', page);
+
+    if (isMobile) {
+      createSimpleReveal(
+        header,
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.55, ease: EASE_OUT },
+        header,
+        'top 88%'
+      );
+
+      revealTeamGridCards(page, true);
+      return;
+    }
+
+    createResettingReveal(
+      header,
+      { x: -70, opacity: 0 },
+      { x: 0, opacity: 1, duration: DUR_MED, ease: EASE_OUT },
+      header,
+      'top 85%',
+      'bottom 0%'
+    );
+
+    revealTeamGridCards(page, false);
+
+  }
+
+
+  function setupOfficers(qs, qsa, EASE_OUT, DUR_MED, createResettingReveal, createSimpleReveal, revealTeamGridCards, isMobile) {
 
     const section = qs('#officers');
     if (!section) return;
@@ -474,6 +553,7 @@
     /* ── Hero row (headline + president card) ───────── */
     const heroLeft = qs('.hero-left',  section);
     const heroCard = qs('.hero-card',  section);
+    const committeeLabel = qs('.committee-preview-label', section);
 
     if (isMobile) {
       createSimpleReveal(
@@ -492,16 +572,7 @@
         'top 90%'
       );
 
-      const cards = qsa('.team-grid .card', section);
-      cards.forEach((card, i) => {
-        createSimpleReveal(
-          card,
-          { y: 34, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.5, delay: (i % 2) * 0.04, ease: EASE_OUT },
-          card,
-          'top 92%'
-        );
-      });
+      revealTeamGridCards(section, true);
       return;
     }
 
@@ -523,28 +594,18 @@
       'bottom 0%'
     );
 
-    /* ── Team cards ──────────────────────────────────── */
-    const teamGrids = qsa('.team-grid', section);
+    createResettingReveal(
+      committeeLabel,
+      { y: 26, opacity: 0, letterSpacing: '.18em' },
+      { y: 0, opacity: 1, letterSpacing: '.08em', duration: DUR_MED, ease: EASE_OUT },
+      committeeLabel,
+      'top 88%',
+      'bottom 18%',
+      0.45
+    );
 
-    teamGrids.forEach((grid, gi) => {
-      const cards = qsa('.card', grid);
-      cards.forEach((card, ci) => {
-        createResettingReveal(
-          card,
-          { y: 60, opacity: 0, scale: 0.9 },
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            duration: DUR_MED,
-            ease: EASE_OUT,
-            delay: (gi * 0.08) + (ci * 0.1),
-          },
-          card,
-          'top 90%'
-        );
-      });
-    });
+    /* ── Team cards ──────────────────────────────────── */
+    revealTeamGridCards(section, false);
 
   }
 
@@ -557,10 +618,19 @@
     const section = qs('#activities');
     if (!section) return;
 
+    const wrapper  = qs('.wrapper', section);
     const header   = qs('.header',  section);
     const folders  = qsa('.folder', section);
 
     if (isMobile) {
+      createSimpleReveal(
+        wrapper,
+        { y: 28, opacity: 0, scale: 0.97 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: EASE_OUT },
+        wrapper || section,
+        'top 90%'
+      );
+
       if (header) {
         const title = qs('.header-title', header);
         const desc  = qs('.header-desc',  header);
@@ -593,6 +663,17 @@
       });
       return;
     }
+
+    /* ── Wrapper ─────────────────────────────────────── */
+    createResettingReveal(
+      wrapper,
+      { y: 72, opacity: 0, scale: 0.94 },
+      { y: 0, opacity: 1, scale: 1, duration: DUR_SLOW, ease: EASE_OUT },
+      wrapper || section,
+      'top 88%',
+      'bottom 10%',
+      0.42
+    );
 
     /* ── Header ──────────────────────────────────────── */
     if (header) {

@@ -169,6 +169,107 @@ p, h1, h2, h3, h4, h5, h6 {
   }
 }
 
+.scroll-top-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 54px;
+  height: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(26, 26, 26, 0.92);
+  color: var(--white);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px);
+  overflow: hidden;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease, background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, width 0.25s ease, padding 0.25s ease, gap 0.25s ease;
+  z-index: 999;
+}
+
+.scroll-top-btn.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+  width: 204px;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 0 18px;
+  background: #000;
+}
+
+.scroll-top-btn.is-on-dark {
+  background: rgba(247, 247, 247, 0.94);
+  color: var(--graphite-black);
+  border-color: rgba(26, 26, 26, 0.12);
+}
+
+.scroll-top-btn.is-on-dark:hover {
+  background: #fff;
+}
+
+.scroll-top-btn svg {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  fill: currentColor;
+}
+
+.scroll-top-btn-label {
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: 'Modius';
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: max-width 0.25s ease, opacity 0.2s ease;
+}
+
+.scroll-top-btn:hover .scroll-top-btn-label,
+.scroll-top-btn:focus-visible .scroll-top-btn-label {
+  max-width: 140px;
+  opacity: 1;
+}
+
+.scroll-top-btn:focus-visible {
+  outline: 2px solid var(--royal-blue);
+  outline-offset: 3px;
+}
+
+@media (max-width: 768px) {
+  .scroll-top-btn {
+    right: 18px;
+    bottom: 18px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .scroll-top-btn:hover,
+  .scroll-top-btn:focus-visible {
+    width: 48px;
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+  }
+
+  .scroll-top-btn-label {
+    display: none;
+  }
+}
+
 
 /*========================= Entrance animation and shits =========================  */
 

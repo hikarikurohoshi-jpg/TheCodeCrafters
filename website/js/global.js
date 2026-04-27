@@ -46,6 +46,30 @@
 
 /* ── Master intro + homepage entrance ───────────────────────── */
 window.addEventListener("load", () => {
+  const skipHomeIntro = sessionStorage.getItem("skipHomeIntro") === "1";
+  window.__skipHomeIntro = skipHomeIntro;
+
+  if (skipHomeIntro) {
+    const intro = document.querySelector(".intro-screen");
+    const target = window.location.hash ? document.querySelector(window.location.hash) : null;
+
+    if (intro) {
+      intro.style.opacity = "0";
+      intro.style.display = "none";
+    }
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (target) {
+          target.scrollIntoView({ behavior: "auto", block: "start" });
+        }
+
+        sessionStorage.removeItem("skipHomeIntro");
+      });
+    });
+
+    return;
+  }
 
   const pillars = gsap.utils.toArray(".pillar");
   const logo    = document.querySelector(".logo-wrap");
