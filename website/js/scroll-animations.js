@@ -386,9 +386,9 @@
           defaults: { overwrite: 'auto' },
           scrollTrigger: {
             trigger: desc,
-            start: 'top 92%',
-            end: 'top 48%',
-            scrub: 0.3
+            start: 'top 82%',
+            end: 'bottom 34%',
+            scrub: 0.4
           }
         })
           .to(descLines, {
@@ -455,8 +455,8 @@
         scrollTrigger: {
           trigger: desc,
           start: 'top 60%',
-          end: 'bottom 12%',
-          scrub: 0.35
+          end: 'bottom -8%',
+          scrub: 0.4
         }
       })
         .to(descLines, {
