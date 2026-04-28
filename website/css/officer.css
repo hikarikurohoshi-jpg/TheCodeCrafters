@@ -406,6 +406,11 @@
       padding: 10px 0;
     }
 
+    .committee-preview-grid .card:nth-child(2) .overlay-quote {
+      font-size: clamp(8.5px, 0.78vw, 11px);
+      line-height: 1.45;
+    }
+
     .overlay-footer .name {
       font-size: 12px;
       font-weight: 700;

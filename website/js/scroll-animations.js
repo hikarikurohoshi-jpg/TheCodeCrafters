@@ -25,6 +25,12 @@
   }
 
   ready(function () {
+    const MOBILE_QUERY = '(max-width: 900px)';
+    const mobileMedia = window.matchMedia(MOBILE_QUERY);
+    let setupTimer = null;
+    let rebuildTimer = null;
+    let cleanupSetup = null;
+    let currentViewportMode = mobileMedia.matches ? 'mobile' : 'desktop';
 
     /* Give the intro timeline a moment to finish before we
        register ScrollTriggers (intro is ~3.5 s total).       */
@@ -32,12 +38,72 @@
 
     const resolvedInitDelay = document.querySelector('.home') && !window.__skipHomeIntro ? INIT_DELAY : 0;
 
-    if (resolvedInitDelay) {
-      setTimeout(setup, resolvedInitDelay);
-      return;
+    function runSetup() {
+      if (setupTimer) {
+        clearTimeout(setupTimer);
+        setupTimer = null;
+      }
+
+      if (cleanupSetup) {
+        cleanupSetup();
+        cleanupSetup = null;
+      }
+
+      cleanupSetup = setup();
+      currentViewportMode = mobileMedia.matches ? 'mobile' : 'desktop';
+
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+      });
     }
 
-    setup();
+    function scheduleSetup(delay = 0) {
+      if (setupTimer) {
+        clearTimeout(setupTimer);
+      }
+
+      setupTimer = setTimeout(() => {
+        setupTimer = null;
+        runSetup();
+      }, delay);
+    }
+
+    function scheduleRefreshOrRebuild(forceRebuild = false) {
+      if (rebuildTimer) {
+        clearTimeout(rebuildTimer);
+      }
+
+      rebuildTimer = setTimeout(() => {
+        rebuildTimer = null;
+
+        const nextViewportMode = mobileMedia.matches ? 'mobile' : 'desktop';
+
+        if (forceRebuild || nextViewportMode !== currentViewportMode) {
+          runSetup();
+          return;
+        }
+
+        ScrollTrigger.refresh();
+      }, 160);
+    }
+
+    if (resolvedInitDelay) scheduleSetup(resolvedInitDelay);
+    else runSetup();
+
+    if (mobileMedia.addEventListener) {
+      mobileMedia.addEventListener('change', () => scheduleRefreshOrRebuild(true));
+    } else if (mobileMedia.addListener) {
+      mobileMedia.addListener(() => scheduleRefreshOrRebuild(true));
+    }
+
+    window.addEventListener('resize', () => scheduleRefreshOrRebuild(false), { passive: true });
+    window.addEventListener('orientationchange', () => scheduleRefreshOrRebuild(true));
+    window.addEventListener('pageshow', () => scheduleRefreshOrRebuild(false));
+    window.addEventListener('load', () => scheduleRefreshOrRebuild(false));
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => scheduleRefreshOrRebuild(false));
+    }
   });
 
 
@@ -47,6 +113,7 @@
   function setup() {
 
     gsap.registerPlugin(ScrollTrigger);
+    const ctx = gsap.context(() => {
 
     /* ── helpers ──────────────────────────────────────── */
     const qs  = (sel, ctx = document) => ctx.querySelector(sel);
@@ -220,6 +287,13 @@
        6.  FOOTER
     ══════════════════════════════════════════════════ */
     setupFooter(qs, qsa, isMobile);
+
+    }, document.body);
+
+    return function cleanup() {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ctx.revert();
+    };
 
   } // end setup()
 
